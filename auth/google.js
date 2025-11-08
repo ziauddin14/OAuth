@@ -1,22 +1,28 @@
+import passport from "passport";
+import * as dotenv from 'dotenv';
+import { Strategy as GoogleStrategy } from "passport-google-oauth20"; 
 
-import passport from 'passport';
-import { configDotenv } from 'dotenv';
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
-configDotenv()
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE-CLIENT-ID,
-    clientSecret: process.env.GOOGLE-CLIENT-SECRET,
-    callbackURL: process.env.CALLBACK-Url
-  },
-  function(accessToken, refreshToken, profile, cb) {
+dotenv.config();
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,         
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,   
+      callbackURL: process.env.CALLBACK_URL,          
+    },
+    function (accessToken, refreshToken, profile, cb) {
       return cb(null, profile);
-  }
-));
+    }
+  )
+);
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(id, done) {
-    done(null, user);
+passport.deserializeUser(function (user, done) {
+  done(null, user);
 });
+
+export default passport;
